@@ -16,7 +16,7 @@ timezone:
 
 title: Oliveira # the main title
 
-tagline: Cybersecurity Research & Penetration Testing # it will display as the subtitle
+tagline: Life Long Learning # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   Cybersecurity blog — CTF writeups, penetration testing, and vulnerability research.
@@ -130,7 +130,7 @@ assets:
 pwa:
   enabled: true # The option for PWA feature (installable)
   cache:
-    enabled: true # The option for PWA offline cache
+    enabled: false # The option for PWA offline cache
     # Paths defined here will be excluded from the PWA cache.
     # Usually its value is the `baseurl` of another website that
     # shares the same domain name as the current website.
