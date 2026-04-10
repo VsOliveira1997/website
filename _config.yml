@@ -16,7 +16,7 @@ timezone:
 
 title: Oliveira # the main title
 
-tagline: Peel back every layer. Find what's hidden. # it will display as the subtitle
+tagline: Cybersecurity Research & Penetration Testing # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   Cybersecurity blog — CTF writeups, penetration testing, and vulnerability research.
