@@ -5,12 +5,12 @@ categories: [AI, Tooling]
 tags: [ai, skills, mcp, agents, automation]
 ---
 
-Muita gente ainda tenta resolver tudo no prompt. Funciona para tarefas curtas, mas fica muito confuso quando a IA precisa repetir um fluxo, seguir um padrão ou conversar com sistemas externos.
+Muita gente ainda resolve tudo no prompt. Funciona para tarefas curtas, mas fica muito confuso quando a IA precisa repetir um fluxo, seguir um padrão ou conversar com sistemas externos.
 
-Se você quer melhorar um agente, normalmente existem dois caminhos complementares:
+Para melhorar um agente, normalmente existem dois caminhos complementares:
 
 - `skills`: ensinam a IA *como* executar uma tarefa
-- `MCPs`: Uma ponte entre a AI e o Programa que estiver rodando (exemplo MCP ghidra)
+- `MCPs`: uma ponte entre a IA e o programa que estiver rodando, como no exemplo do MCP do Ghidra
 
 Em resumo: skill organiza comportamento; MCP expõe capacidade.
 
@@ -131,7 +131,7 @@ ou então dentro do próprio projeto:
     api-review.md
 ```
 
-O importante não é o nome da pasta. O importante é que a instrução seja acionável e específica.
+O importante não é o nome da pasta. O importante é que a instrução seja acionável e específica. Também vale tomar cuidado com a quantidade de skills: dependendo da IA, muitas skills podem consumir tokens demais e atrapalhar a resposta.
 
 ## Como adicionar um MCP em uma IA
 
@@ -174,52 +174,13 @@ No `Claude Code`, esse tipo de integração também pode ser compartilhado no pr
 }
 ```
 
-Se o seu MCP fala com um sistema próprio, uma forma simples de entender o desenho dessas integrações é pensar nas ferramentas como operações com nomes e objetivos bem definidos. Em vez de uma tool genérica que tenta fazer tudo, o mais comum é expor ações separadas, por exemplo:
+No caso do `GhidraMCP`, isso fica mais fácil de visualizar porque ele expõe operações ligadas diretamente ao fluxo de reverse engineering, por exemplo:
 
-- `listar_campanhas`
-- `buscar_documentacao`
-- `consultar_metricas`
-- `abrir_ticket`
-- `obter_asset`
+- decompilar e analisar binários no Ghidra
+- renomear métodos e dados automaticamente
+- listar métodos, classes, imports e exports
 
 Esse tipo de organização facilita entender o que a IA pode chamar, quais parâmetros cada operação espera e que tipo de resposta volta do servidor MCP.
-
-## O melhor cenário: usar a skill para orquestrar o MCP
-
-Esse é o arranjo que mais faz sentido em produção.
-
-Você cria uma skill dizendo algo como:
-
-- quando consultar o sistema
-- em que ordem chamar as tools
-- como validar o retorno
-- quando pedir confirmação do usuário
-- como resumir o resultado final
-
-Ou seja: o MCP fornece as ferramentas; a skill define a estratégia.
-
-Se eu estivesse montando isso para uma IA focada em operação ou segurança, faria algo assim:
-
-1. Skill identifica a intenção do usuário.
-2. Skill decide se precisa consultar o MCP.
-3. IA chama a tool certa.
-4. Skill normaliza o resultado.
-5. Resposta final sai em formato consistente.
-
-É isso que separa um agente improvisado de um agente utilizável no dia a dia.
-
-## Onde muita integração falha
-
-Os erros que mais aparecem são bem repetidos:
-
-- skill longa demais e vaga demais
-- tool MCP que faz coisa demais ao mesmo tempo
-- nomes ruins para tools
-- retorno inconsistente
-- ausência de validação e autenticação
-- falta de regra sobre quando a IA deve pedir confirmação antes de executar ação
-
-Se o objetivo é criar algo confiável, vale pensar como engenheiro de interface, não só como prompt engineer.
 
 ## Fechando
 

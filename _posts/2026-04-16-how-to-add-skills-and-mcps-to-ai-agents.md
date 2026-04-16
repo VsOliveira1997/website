@@ -10,7 +10,7 @@ Most people still try to solve everything with a prompt. That works for short ta
 If you want to improve an agent, there are usually two complementary paths:
 
 - `skills`: teach the AI *how* to handle a class of tasks
-- `MCPs`: a bridge between the AI and the program that is running, such as the Ghidra MCP example
+- `MCPs`: a bridge between the AI and the program that is running, like the Ghidra MCP example
 
 In practice, a skill shapes behavior. An MCP exposes capability.
 
@@ -131,7 +131,7 @@ or inside the project itself:
     api-review.md
 ```
 
-The exact folder name matters less than the quality of the instruction. It needs to be specific, operational, and easy for the agent to apply.
+The exact folder name matters less than the quality of the instruction. It needs to be specific, operational, and easy for the agent to apply. It is also worth being careful with the number of skills: depending on the AI, too many skills can consume extra tokens and hurt the quality of the response.
 
 ## How to add an MCP to an AI
 
@@ -174,13 +174,11 @@ In `Claude Code`, the same integration pattern can be shared in the repository w
 }
 ```
 
-If your MCP talks to an internal system, one simple way to think about the integration design is to treat tools as clearly scoped operations. Instead of one broad tool that tries to handle everything, you will often see separate actions such as:
+In the case of `GhidraMCP`, this becomes easier to visualize because it exposes operations that map directly to reverse engineering workflows, such as:
 
-- `list_campaigns`
-- `search_docs`
-- `query_metrics`
-- `open_ticket`
-- `get_asset`
+- decompiling and analyzing binaries in Ghidra
+- automatically renaming methods and data
+- listing methods, classes, imports, and exports
 
 That kind of structure makes it easier to understand what the AI can call, which parameters each operation expects, and what kind of result the MCP server will return.
 
