@@ -202,15 +202,7 @@ Se o objetivo é criar algo confiável, vale pensar como engenheiro de interface
 
 ## Fechando
 
-Se você quer ensinar novas capacidades para uma IA, eu usaria esta regra simples:
-
-- use `skill` para comportamento recorrente
-- use `MCP` para acesso a ferramentas e contexto externo
-- combine os dois quando quiser consistência com execução real
-
-Prompt sozinho resolve demonstração. Skill e MCP resolvem operação.
-
-Se você já construiu um MCP próprio, o próximo passo natural é escrever a skill que sabe exatamente quando e como usá-lo. A maior parte do valor aparece aí.
+No fim, a ideia é simples: `skills` ajudam a IA a seguir um processo, e `MCPs` ajudam a IA a acessar ferramentas e dados reais. Quando os dois trabalham juntos, o agente deixa de ser só um chat melhorado e passa a ser algo realmente útil no dia a dia.
 
 ## Referências
 
