@@ -6,14 +6,14 @@ tags: [ai, skills, mcp, agents, automation]
 image: /assets/img/posts/skills-mcp-linkedin.png
 ---
 
-Most people still try to solve everything with a prompt. That works for short tasks, but it becomes very confusing when the AI needs to repeat a workflow, follow a pattern, or interact with external systems.
+Most people still solve everything with a prompt. That works for short tasks, but it becomes very confusing when the AI needs to repeat a workflow, follow a pattern, or interact with external systems.
 
-If you want to improve an agent, there are usually two complementary paths:
+To improve an agent, there are usually two complementary paths:
 
 - `skills`: teach the AI *how* to handle a class of tasks
-- `MCPs`: a bridge between the AI and the program that is running, like the Ghidra MCP example
+- `MCPs`: a bridge between the AI and the program that is running, as in the Ghidra MCP example
 
-In practice, a skill shapes behavior. An MCP exposes capability.
+In short, a skill organizes behavior, and an MCP exposes capability.
 
 ## What a skill is
 
@@ -132,7 +132,7 @@ or inside the project itself:
     api-review.md
 ```
 
-The exact folder name matters less than the quality of the instruction. It needs to be specific, operational, and easy for the agent to apply. It is also worth being careful with the number of skills: depending on the AI, too many skills can consume extra tokens and hurt the quality of the response.
+The exact folder name matters less than the quality of the instruction. What matters is that it is actionable and specific. It is also worth being careful with the number of skills: depending on the AI, too many skills can consume too many tokens and hurt the response.
 
 ## How to add an MCP to an AI
 
@@ -175,52 +175,17 @@ In `Claude Code`, the same integration pattern can be shared in the repository w
 }
 ```
 
-In the case of `GhidraMCP`, this becomes easier to visualize because it exposes operations that map directly to reverse engineering workflows, such as:
+In the case of `GhidraMCP`, this becomes easier to visualize because it exposes operations tied directly to the reverse engineering workflow, for example:
 
 - decompiling and analyzing binaries in Ghidra
 - automatically renaming methods and data
 - listing methods, classes, imports, and exports
 
-That kind of structure makes it easier to understand what the AI can call, which parameters each operation expects, and what kind of result the MCP server will return.
-
-## The best setup: let the skill orchestrate the MCP
-
-This is usually the most effective setup in practice.
-
-The MCP exposes the tools, and the skill tells the agent:
-
-- when to query the system
-- in which order to call tools
-- how to validate the returned data
-- when to ask for user confirmation
-- how to summarize the final answer
-
-That is the difference between an improvised assistant and an agent that is actually usable in day-to-day work.
-
-If I were building this for a security or operations workflow, the flow would be something like:
-
-1. The skill identifies the user intent.
-2. The skill decides whether MCP access is needed.
-3. The agent calls the correct tool.
-4. The skill normalizes the result.
-5. The final answer is returned in a consistent format.
-
-## Where these integrations usually fail
-
-The same problems show up over and over:
-
-- skills that are too long and too vague
-- MCP tools that try to do too much
-- poor tool naming
-- inconsistent return formats
-- weak validation or authentication boundaries
-- no rule for when the agent must ask before taking action
-
-If you want something reliable, think like an interface designer, not just like a prompt writer.
+This kind of organization makes it easier to understand what the AI can call, which parameters each operation expects, and what kind of response comes back from the MCP server.
 
 ## Closing
 
-At the end of the day, the model gets more useful when it has both structure and access. Skills give it a repeatable way to think through a task, and MCPs give it a safe way to reach real tools and real data. That combination is what turns an AI from a better chatbot into a practical working agent.
+At the end of the day, the idea is simple: `skills` help the AI follow a process, and `MCPs` help the AI access real tools and data. When both work together, the agent stops being just an improved chatbot and becomes something genuinely useful in day-to-day work.
 
 ## References
 
