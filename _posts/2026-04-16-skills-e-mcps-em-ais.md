@@ -5,12 +5,12 @@ categories: [AI, Tooling]
 tags: [ai, skills, mcp, agents, automation]
 ---
 
-Muita gente ainda tenta resolver tudo no prompt. Funciona para tarefas curtas, mas quebra rápido quando a IA precisa repetir um fluxo, seguir um padrão ou conversar com sistemas externos.
+Muita gente ainda tenta resolver tudo no prompt. Funciona para tarefas curtas, mas fica muito confuso quando a IA precisa repetir um fluxo, seguir um padrão ou conversar com sistemas externos.
 
-Se você quer deixar um agente realmente mais útil, normalmente existem dois caminhos complementares:
+Se você quer melhorar um agente, normalmente existem dois caminhos complementares:
 
 - `skills`: ensinam a IA *como* executar uma tarefa
-- `MCPs`: dão para a IA um jeito padronizado de *acessar ferramentas e dados*
+- `MCPs`: Uma ponte entre a AI e o Programa que estiver rodando (exemplo MCP ghidra)
 
 Em resumo: skill organiza comportamento; MCP expõe capacidade.
 
@@ -143,17 +143,38 @@ Aqui o padrão muda menos do que parece. Você precisa de três peças:
 
 Dependendo da stack, o servidor pode ser um binário local, um script Node.js, um processo Python ou um endpoint remoto.
 
-Um exemplo conceitual de configuração:
+Um exemplo real é o [GhidraMCP](https://github.com/lauriewired/ghidramcp), que conecta a IA ao Ghidra para tarefas de reverse engineering. A configuração pode ficar assim:
 
 ```toml
-[mcp_servers.holyad]
-command = "node"
-args = ["/caminho/para/seu/mcp-server.js"]
+[mcp_servers.ghidra]
+command = "python"
+args = [
+  "/caminho/para/bridge_mcp_ghidra.py",
+  "--ghidra-server",
+  "http://127.0.0.1:8080/"
+]
 ```
 
 Depois disso, a IA passa a enxergar as ferramentas expostas por esse servidor.
 
-Se o seu MCP fala com um sistema próprio, eu recomendaria expor ferramentas pequenas e objetivas. Em vez de criar uma tool genérica demais, prefira operações com propósito claro:
+No `Claude Code`, esse tipo de integração também pode ser compartilhado no projeto via `.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "ghidra": {
+      "command": "python",
+      "args": [
+        "/caminho/para/bridge_mcp_ghidra.py",
+        "--ghidra-server",
+        "http://127.0.0.1:8080/"
+      ]
+    }
+  }
+}
+```
+
+Se o seu MCP fala com um sistema próprio, uma forma simples de entender o desenho dessas integrações é pensar nas ferramentas como operações com nomes e objetivos bem definidos. Em vez de uma tool genérica que tenta fazer tudo, o mais comum é expor ações separadas, por exemplo:
 
 - `listar_campanhas`
 - `buscar_documentacao`
@@ -161,7 +182,7 @@ Se o seu MCP fala com um sistema próprio, eu recomendaria expor ferramentas peq
 - `abrir_ticket`
 - `obter_asset`
 
-Ferramenta boa para MCP tem nome claro, entrada simples e retorno previsível.
+Esse tipo de organização facilita entender o que a IA pode chamar, quais parâmetros cada operação espera e que tipo de resposta volta do servidor MCP.
 
 ## O melhor cenário: usar a skill para orquestrar o MCP
 

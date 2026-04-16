@@ -5,12 +5,12 @@ categories: [AI, Tooling]
 tags: [ai, skills, mcp, agents, automation]
 ---
 
-Most people still try to solve everything with a prompt. That works for short tasks, but it starts to fall apart when the AI needs to follow a repeatable workflow, keep a consistent format, or interact with external systems.
+Most people still try to solve everything with a prompt. That works for short tasks, but it becomes very confusing when the AI needs to repeat a workflow, follow a pattern, or interact with external systems.
 
-If you want an agent to become genuinely useful, there are usually two complementary layers to add:
+If you want to improve an agent, there are usually two complementary paths:
 
 - `skills`: teach the AI *how* to handle a class of tasks
-- `MCPs`: give the AI a structured way to *access tools and external context*
+- `MCPs`: a bridge between the AI and the program that is running, such as the Ghidra MCP example
 
 In practice, a skill shapes behavior. An MCP exposes capability.
 
@@ -143,17 +143,38 @@ This tends to be more straightforward than people expect. You usually need three
 
 Depending on your stack, the MCP server might be a local binary, a Node.js script, a Python process, or a remote service.
 
-A conceptual example:
+One real example is [GhidraMCP](https://github.com/lauriewired/ghidramcp), which connects an AI client to Ghidra for reverse engineering workflows. A configuration can look like this:
 
 ```toml
-[mcp_servers.holyad]
-command = "node"
-args = ["/path/to/your/mcp-server.js"]
+[mcp_servers.ghidra]
+command = "python"
+args = [
+  "/path/to/bridge_mcp_ghidra.py",
+  "--ghidra-server",
+  "http://127.0.0.1:8080/"
+]
 ```
 
 After that, the AI can discover and use the tools exposed by that server.
 
-If your MCP talks to an internal system, keep the tools small and explicit. Instead of exposing one vague all-purpose tool, prefer focused operations such as:
+In `Claude Code`, the same integration pattern can be shared in the repository with a `.claude.json` file:
+
+```json
+{
+  "mcpServers": {
+    "ghidra": {
+      "command": "python",
+      "args": [
+        "/path/to/bridge_mcp_ghidra.py",
+        "--ghidra-server",
+        "http://127.0.0.1:8080/"
+      ]
+    }
+  }
+}
+```
+
+If your MCP talks to an internal system, one simple way to think about the integration design is to treat tools as clearly scoped operations. Instead of one broad tool that tries to handle everything, you will often see separate actions such as:
 
 - `list_campaigns`
 - `search_docs`
@@ -161,7 +182,7 @@ If your MCP talks to an internal system, keep the tools small and explicit. Inst
 - `open_ticket`
 - `get_asset`
 
-Good MCP tools have clear names, simple inputs, and predictable outputs.
+That kind of structure makes it easier to understand what the AI can call, which parameters each operation expects, and what kind of result the MCP server will return.
 
 ## The best setup: let the skill orchestrate the MCP
 
