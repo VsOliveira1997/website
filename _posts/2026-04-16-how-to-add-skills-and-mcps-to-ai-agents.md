@@ -3,6 +3,7 @@ title: "How to Add Skills and MCPs to AI Agents"
 date: 2026-04-16
 categories: [AI, Tooling]
 tags: [ai, skills, mcp, agents, automation]
+image: /assets/img/posts/skills-mcp-linkedin.png
 ---
 
 Most people still try to solve everything with a prompt. That works for short tasks, but it becomes very confusing when the AI needs to repeat a workflow, follow a pattern, or interact with external systems.

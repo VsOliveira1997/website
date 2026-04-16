@@ -3,6 +3,7 @@ title: "Skills e MCPs: como adicionar novas capacidades em AIs"
 date: 2026-04-16
 categories: [AI, Tooling]
 tags: [ai, skills, mcp, agents, automation]
+image: /assets/img/posts/skills-mcp-linkedin.png
 ---
 
 Muita gente ainda resolve tudo no prompt. Funciona para tarefas curtas, mas fica muito confuso quando a IA precisa repetir um fluxo, seguir um padrão ou conversar com sistemas externos.
